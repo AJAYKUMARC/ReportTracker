@@ -1,0 +1,68 @@
+﻿@model IEnumerable<ReportTracker.Data.FileTrackerInfo>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h4>File Information</h4>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<input id="searchInput" type="text" placeholder="Search..">
+<br>
+<br>
+<table class="table" >
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.FileName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.BarCode)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DeptFromNavigation)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DeptToNavigation)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody id="fileTracker">
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FileName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.BarCode)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DeptFromNavigation.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DeptToNavigation.Name)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<script>
+    $(document).ready(function () {
+        $("#searchInput").on("keyup", function () {
+            var value = $(this).val().toLowerCase();
+            $("#fileTracker tr").filter(function () {
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+            });
+        });
+    });
+</script>
